@@ -24,7 +24,7 @@ where:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/<your-username>/gaussian-elimination.git
+git clone https://github.com/AmmarSajjid/Gaussian-Elimination
 cd gaussian-elimination
 ```
 
