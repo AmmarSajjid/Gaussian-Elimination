@@ -1,6 +1,32 @@
 import numpy as np
 
 
+def sanitize_input(A, b):
+    """
+    Sanitize and validate the input matrices A and b.
+
+    Parameters:
+    A (numpy.ndarray): Coefficient matrix.
+    b (numpy.ndarray): Right-hand side vector.
+
+    Returns:
+    Sanitized matrices A and b.
+    """
+    A = np.array(A, dtype=float)
+    b = np.array(b, dtype=float).reshape(-1, 1)
+
+    if A.shape[0] != A.shape[1]:
+        raise ValueError("Matrix A must be square (n x n).")
+
+    if A.shape[0] != b.shape[0]:
+        raise ValueError("The number of rows in A must match the number of rows in b.")
+    
+    if np.linalg.det(A) == 0:
+        raise ValueError("Matrix A must be non-singular.")
+
+    return A, b
+
+
 def gauss_elim(A, b):
     """
     Solve the system of linear equations Ax = b using Gaussian elimination.
@@ -13,6 +39,7 @@ def gauss_elim(A, b):
     numpy.ndarray: Solution vector x (n,1).
     """
 
+    A, b = sanitize_input(A, b)
     n = len(A[0])
     x = np.zeros((n,1))
     
@@ -74,9 +101,10 @@ def REF(A, b, n):
 
 if __name__ == "__main__":
     # Example usage
-    n = 3
-    A = np.array([[1, 2, 3], [2, 4, 5], [1, 3, 7]], dtype=float)
-    b = np.array([1, 2, 3], dtype=float).reshape(n,1)
+    A = [[2, -1, 1], [1, 3, 2], [1, -1, 2]]
+    b = [3, 13, 5]
 
     x = gauss_elim(A,b)
-    print("Solution:\n", x)
+    x_hat = np.linalg.solve(A, b)
+    print("Our Solution: ", x.flatten())
+    print("Numpy Solution: ", x_hat)
