@@ -6,11 +6,11 @@ def sanitize_input(A, b):
     Sanitize and validate the input matrices A and b.
 
     Parameters:
-    A (numpy.ndarray): Coefficient matrix.
-    b (numpy.ndarray): Right-hand side vector.
+    A : Coefficient matrix.
+    b : Right-hand side vector.
 
     Returns:
-    Sanitized matrices A and b.
+    Sanitized matrices A and b as numpy arrays.
     """
     A = np.array(A, dtype=float)
     b = np.array(b, dtype=float).reshape(-1, 1)
@@ -59,20 +59,17 @@ def gauss_elim(A, b):
 
 def REF(A, b, n):
     """
-    Create a pivot for i-th row and eliminate i-th column.
+    Convert the augmented matrix [A|b] to Row Echelon Form (REF) using Gaussian elimination.    
 
     Parameters:
     A (numpy.ndarray): Coefficient matrix (n x n).
     b (numpy.ndarray): Right-hand side vector (n,1).
     n (int): Size of the matrix.
-    i (int): Current row index.
     """
     for i in range(n):
-        # Creating a pivot for the i-th row
-        # Performing Ri = Ri * (1 / pivot_value)
         pivot_value = A[i][i]
 
-        
+        # If pivot is zero, swap with a row below that has a non-zero entry in the same column
         if pivot_value == 0:
             for j in range(i+1, n):
                 if A[j][i] != 0:
@@ -83,7 +80,7 @@ def REF(A, b, n):
             
         
         pivot_value = A[i][i]
-         # perform Ri = Ri / pivot_value
+        # perform Ri = Ri / pivot_value
         A[i] = A[i] / pivot_value
         b[i] = b[i] / pivot_value
 
